@@ -1,0 +1,10 @@
+name: srs-llm
+channels:
+  - pytorch
+  - huggingface
+  - nvidia
+  - conda-forge
+dependencies:
+  - python>=3.12
+  - transformers
+  - pip
