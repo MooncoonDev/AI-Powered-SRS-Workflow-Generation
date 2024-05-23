@@ -1,6 +1,5 @@
-import io
-
-import networkx as nx
+import pydot
+from networkx.drawing import nx_pydot
 
 
 def evaluate_workflow_graph(gt_graph, gen_graph):
@@ -63,17 +62,16 @@ if __name__ == "__main__":
     }
     """
 
-    # Create an in-memory file from DOT strings
-    gt_dot_io = io.StringIO(ground_truth_dot)
-    gen_dot_io = io.StringIO(generated_dot)
+    # Parse DOT strings directly to pydot graphs
+    gt_pgraph = pydot.graph_from_dot_data(ground_truth_dot)[0]
+    gen_pgraph = pydot.graph_from_dot_data(generated_dot)[0]
 
-    # Parse DOT to NetworkX graphs
-    gt_graph = nx.DiGraph(nx.drawing.nx_pydot.read_dot(gt_dot_io))
-    gen_graph = nx.DiGraph(nx.drawing.nx_pydot.read_dot(gen_dot_io))
-
-    gt_dot_io.close()
-    gen_dot_io.close()
+    # Convert pydot graphs to NetworkX graphs
+    ground_truth_graph = nx_pydot.from_pydot(gt_pgraph)
+    generated_graph = nx_pydot.from_pydot(gen_pgraph)
 
     # Evaluate the workflow graphs
-    metrics = evaluate_workflow_graph(gt_graph, gen_graph)
+    metrics = evaluate_workflow_graph(ground_truth_graph, generated_graph)
     print(metrics)
+
+    assert (metrics["node_f1"] == 0.923076923076923)
