@@ -9,4 +9,7 @@ dependencies:
   - networkx
   - pydot
   - requests
+  - pypdf2
+  - markdown
+  - beautifulsoup4
   - pip

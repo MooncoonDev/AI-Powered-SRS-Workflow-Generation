@@ -27,7 +27,6 @@ The following datasets are all included in the pipeline, and assigned a code for
 | D    | https://github.com/Gr0ki/book-catalog/blob/main/documentation/Software_Requirements_Specification.md                                                                                                                |
 | E    | https://github.com/munteanuic-zz/Voting-Aggregation-System/blob/main/WaterfallProject/SRS/SRS_Team5.pdf                                                                                                             |
 | F    | https://github.com/MuhammadKazim01/Software-Requirement-and-Design-Specifications-for-Bank-Management-System/blob/main/Software%20Requirement%20and%20Design%20Specification%20for%20Bank%20Management%20System.pdf |
-| G    | https://github.com/imprld01/Exchange/blob/master/%E8%BB%9F%E9%AB%94%E5%B7%A5%E7%A8%8B%E6%96%87%E4%BB%B6/%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC%E6%96%87%E4%BB%B6%E8%A6%8F%E7%AF%84-SRS-Exchange20170115.pdf           |
 
 These are all publicly available SRS documents of varying quality. You can find out more about each project in the
 accompanying repository.
