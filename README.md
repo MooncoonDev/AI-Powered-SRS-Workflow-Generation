@@ -14,17 +14,26 @@ well the system can automate this task. Evaluation metrics such as
 precision, recall, F1 score, and semantic similarity are used to quantify the system's effectiveness in capturing the
 intended workflows described in the SRS documents.
 
-## Corpus
+## Dataset Description
 
-The following datasets
+The following datasets are all included in the pipeline, and assigned a code for easy reference:
 
-- https://github.com/mahmoudai1/school-management-system/blob/main/SRS.pdf
-- https://github.com/aliasar1/Hotel-Management-System-Documentation/blob/main/Software%20Requirements%20Specification%20(HMS)%20.pdf
-- https://github.com/vrinda41198/Digital-Bus-Automation-System/blob/main/Software%20Requirements%20Specification.pdf
-- https://github.com/Gr0ki/book-catalog/blob/main/documentation/Software_Requirements_Specification.md
-- https://github.com/munteanuic-zz/Voting-Aggregation-System/blob/main/WaterfallProject/SRS/SRS_Team5.pdf
-- https://github.com/MuhammadKazim01/Software-Requirement-and-Design-Specifications-for-Bank-Management-System/blob/main/Software%20Requirement%20and%20Design%20Specification%20for%20Bank%20Management%20System.pdf
-- https://github.com/imprld01/Exchange/blob/master/%E8%BB%9F%E9%AB%94%E5%B7%A5%E7%A8%8B%E6%96%87%E4%BB%B6/%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC%E6%96%87%E4%BB%B6%E8%A6%8F%E7%AF%84-SRS-Exchange20170115.pdf
+| Code | URL                                                                                                                                                                                                                 |
+|------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| A    | https://github.com/mahmoudai1/school-management-system/blob/main/SRS.pdf                                                                                                                                            |
+| B    | https://github.com/aliasar1/Hotel-Management-System-Documentation/blob/main/Software%20Design%20Specification%20(HMS).pdf                                                                                           |
+|
+| C    | https://github.com/vrinda41198/Digital-Bus-Automation-System/blob/main/Software%20Requirements%20Specification.pdf                                                                                                  |
+| D    | https://github.com/Gr0ki/book-catalog/blob/main/documentation/Software_Requirements_Specification.md                                                                                                                |
+| E    | https://github.com/munteanuic-zz/Voting-Aggregation-System/blob/main/WaterfallProject/SRS/SRS_Team5.pdf                                                                                                             |
+| F    | https://github.com/MuhammadKazim01/Software-Requirement-and-Design-Specifications-for-Bank-Management-System/blob/main/Software%20Requirement%20and%20Design%20Specification%20for%20Bank%20Management%20System.pdf |
+| G    | https://github.com/imprld01/Exchange/blob/master/%E8%BB%9F%E9%AB%94%E5%B7%A5%E7%A8%8B%E6%96%87%E4%BB%B6/%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC%E6%96%87%E4%BB%B6%E8%A6%8F%E7%AF%84-SRS-Exchange20170115.pdf           |
+
+These are all publicly available SRS documents of varying quality. You can find out more about each project in the
+accompanying repository.
+
+Each file is stored in a synonymously named PDF or markdown file depending on the source, for example `A.pdf`, in
+the `data` directory.
 
 ## Setup
 
@@ -57,6 +66,6 @@ python main.py
 
 ## Copyright
 
-This work is under the MIT license.
+This work is under the MIT licence.
 
 Copyright (c) 2024-Present Marcel Coetzee
