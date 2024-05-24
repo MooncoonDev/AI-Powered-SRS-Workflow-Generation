@@ -75,3 +75,7 @@ def convert_all_pdfs_to_txt(raw_dir: str, processed_dir: str) -> None:
             md_path = os.path.join(raw_dir, filename)
             txt_path = os.path.join(processed_dir, f'{name}.txt')
             convert_md_to_txt(md_path, txt_path)
+
+
+def generate_visual_workflow_graph(digraph: MultiDiGraph) -> None:
+    ...
