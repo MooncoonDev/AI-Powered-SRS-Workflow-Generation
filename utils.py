@@ -57,7 +57,7 @@ def convert_md_to_txt(md_path: str, txt_path: str) -> None:
         txt_file.write(text)
 
 
-def traverse_and_convert_all_to_txt(raw_dir: str, processed_dir: str) -> None:
+def convert_all_pdfs_to_txt(raw_dir: str, processed_dir: str) -> None:
     """
     Traverse and Convert Files to Text
 

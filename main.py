@@ -10,7 +10,7 @@ from typing import Callable, Dict
 from networkx import MultiDiGraph
 
 from config import setup_logging
-from utils import dot_to_digraph, traverse_and_convert_all_to_txt
+from utils import dot_to_digraph, convert_all_pdfs_to_txt
 
 
 logger = setup_logging(__name__, log_level=logging.DEBUG)
@@ -57,7 +57,9 @@ def calculate_metrics(gt_graph: MultiDiGraph, gen_graph: MultiDiGraph) -> Dict[s
 
 
 if __name__ == "__main__":
-    traverse_and_convert_all_to_txt("data/raw", "data/processed/txt")
+    # Data preprocessing.
+    convert_all_pdfs_to_txt("data/raw", "data/processed/txt")
+    infer_dotfiles("data/raw", "data/processed/txt")
 
     ground_truth_dot = """
     digraph workflow {
