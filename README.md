@@ -33,6 +33,11 @@ accompanying repository.
 
 Each file is stored in a synonymously named PDF or markdown file depending on the source, for example `A.pdf`, in
 the `data` directory.
+The processed text files will be saved to `data/processed/txt` and dot files to `data/processed/dot`. The manually (i.e.
+Opus-AI-human assisted) labeled files is stored in `data/reference-dot` directory.
+
+The ground truth samples are in DOT format; the task of the LLM will be to generate workflow graphs in dotfile format
+too.
 
 ## Setup
 
@@ -65,6 +70,6 @@ python main.py
 
 ## Copyright
 
-This work is under the MIT licence.
+MIT licence
 
 Copyright (c) 2024-Present Marcel Coetzee

@@ -1,0 +1,36 @@
+digraph {
+    node [shape = box]
+    start [label = "Start"]
+    input [label = "User inputs CSV file"]
+    parse [label = "Parse file and determine election type"]
+    ir [label = "Instant Runoff (IR) Election"]
+    opl [label = "Open Party List (OPL) Election"]
+    ir_setup [label = "Create candidate objects and allocate votes"]
+    ir_check [label = "Check for majority winner"]
+    ir_eliminate [label = "Eliminate candidate with fewest votes"]
+    ir_redistribute [label = "Redistribute eliminated candidate's votes"]
+    ir_tie [label = "Handle ties with coin flip"]
+    opl_setup [label = "Create candidate and party objects and allocate votes"]
+    opl_quota [label = "Calculate quota"]
+    opl_allocate [label = "Allocate seats to parties based on quota"]
+    opl_rank [label = "Rank candidates within parties"]
+    opl_remainder [label = "Allocate remaining seats based on remainders"]
+    opl_open [label = "Handle ties and open seats"]
+    display [label = "Display winner(s) and election info"]
+    audit [label = "Generate audit file"]
+    media [label = "Generate media report"]
+    end [label = "End"]
+
+    start -> input -> parse
+    parse -> ir [label = "IR"]
+    parse -> opl [label = "OPL"]
+
+    ir -> ir_setup -> ir_check
+    ir_check -> display [label = "Winner"]
+    ir_check -> ir_eliminate [label = "No winner"]
+    ir_eliminate -> ir_redistribute -> ir_tie -> ir_check
+
+    opl -> opl_setup -> opl_quota -> opl_allocate -> opl_rank -> opl_remainder -> opl_open -> display
+
+    display -> audit -> media -> end
+}

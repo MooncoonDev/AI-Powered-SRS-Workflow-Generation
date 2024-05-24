@@ -1,0 +1,19 @@
+digraph HotelManagementSystem {
+    node [shape = box];
+
+    Login -> EmployeeMgmt; Login -> RoomMgmt; Login -> BookingMgmt; Login -> GuestMgmt; Login -> Reporting;
+
+    EmployeeMgmt -> AddEmployee; EmployeeMgmt -> UpdateEmployee; EmployeeMgmt -> RemoveEmployee;
+
+    RoomMgmt -> AddRoom; RoomMgmt -> UpdateRoom;
+
+    BookingMgmt -> AddBooking; BookingMgmt -> UpdateBooking; BookingMgmt -> CancelBooking;
+
+    GuestMgmt -> CheckIn; GuestMgmt -> CheckOut;
+
+    AddBooking -> CheckIn; UpdateBooking -> CheckIn; CancelBooking -> CheckOut;
+
+    CheckIn -> RequestServices; CheckIn -> GenerateReports; CheckOut -> GenerateReports;
+
+    Reporting -> GenerateReports;
+}

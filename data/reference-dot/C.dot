@@ -1,0 +1,29 @@
+digraph G {
+    node [shape = box];
+
+    subgraph cluster_0 {
+    label = "User Management"; Registration -> Login;
+    }
+
+    subgraph cluster_1 {
+    label = "Schedule Management"; "Add Schedule" -> "Update Schedule" -> "Delete Schedule" -> "Get Approval";
+    }
+
+    subgraph cluster_2 {
+    label = "Booking"; "View Schedules" -> "Select Bus" -> "Select Seats" -> "Confirm Booking"; "Confirm Booking" -> Payment;
+    }
+
+    subgraph cluster_3 {
+    label = "Payment"; "Add Money to Wallet" -> "Make Payment";
+    }
+
+    subgraph cluster_4 {
+    label = "Cancellation"; "Cancel Booking" -> "Refund to Wallet";
+    }
+
+    subgraph cluster_5 {
+    label = "Bus Boarding"; "Enter Booking ID" -> "Validate Ticket";
+    }
+
+    Login -> "View Schedules"; "Get Approval" -> "View Schedules"; "Confirm Booking" -> "Enter Booking ID"; "Cancel Booking" -> Notification; "Get Approval" -> Notification;
+}

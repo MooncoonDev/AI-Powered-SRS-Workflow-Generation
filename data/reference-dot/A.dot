@@ -1,0 +1,77 @@
+digraph SchoolSystem {
+
+    // Actors
+  node [shape = rectangle, style = filled, fillcolor = lightblue]
+Teacher
+Student
+Parent
+Employee
+
+// Teacher functions
+  node [shape = ellipse, style = filled, fillcolor = lightgreen]
+CreateTeacherAccount
+AddHomework
+AddGrades
+
+// Student functions
+  node [shape = ellipse, style = filled, fillcolor = lightyellow]
+CreateStudentAccount
+SubmitHomework
+ViewSchedule
+ViewGrades
+
+// Parent functions
+  node [shape = ellipse, style = filled, fillcolor = lightpink]
+CreateParentAccount
+ViewStudentPage
+PayFees
+
+// Employee functions
+  node [shape = ellipse, style = filled, fillcolor = lightgrey]
+CreateEmployeeAccount
+ReviewApplications
+CreateSchedules
+GenerateBills
+GenerateCertificates
+
+// Additional nodes
+  node [shape = diamond, style = filled, fillcolor = white]
+ApplicationsSubmitted
+BusesScheduled
+GradesEntered
+
+// Edges
+  Teacher -> CreateTeacherAccount
+Teacher -> AddHomework
+Teacher -> AddGrades
+
+Student -> CreateStudentAccount
+Student -> SubmitHomework
+Student -> ViewSchedule
+Student -> ViewGrades
+
+Parent -> CreateParentAccount
+Parent -> ViewStudentPage
+Parent -> PayFees
+
+Employee -> CreateEmployeeAccount
+Employee -> ReviewApplications
+Employee -> CreateSchedules
+Employee -> GenerateBills
+Employee -> GenerateCertificates
+
+CreateStudentAccount -> ApplicationsSubmitted
+ReviewApplications -> CreateStudentAccount
+ApplicationsSubmitted -> ReviewApplications
+
+CreateSchedules -> BusesScheduled
+
+AddGrades -> GradesEntered
+GradesEntered -> GenerateCertificates
+
+AddHomework -> SubmitHomework
+SubmitHomework -> AddGrades
+
+ViewStudentPage -> ViewGrades
+ViewStudentPage -> PayFees
+}

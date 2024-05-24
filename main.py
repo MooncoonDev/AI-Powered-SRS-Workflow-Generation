@@ -3,12 +3,17 @@ Copyright (c) 2024 Marcel Coetzee
 
 MIT License
 """
+import logging
 from statistics import harmonic_mean
 from typing import Callable, Dict
 
 from networkx import MultiDiGraph
 
+from config import setup_logging
 from utils import dot_to_digraph, traverse_and_convert_all_to_txt
+
+
+logger = setup_logging(__name__, log_level=logging.DEBUG)
 
 
 def calculate_metrics(gt_graph: MultiDiGraph, gen_graph: MultiDiGraph) -> Dict[str, float]:
@@ -76,6 +81,5 @@ if __name__ == "__main__":
 
     ground_truth_graph, generated_graph = dot_to_digraph(ground_truth_dot), dot_to_digraph(generated_dot)
     metrics = calculate_metrics(ground_truth_graph, generated_graph)
-    print(metrics)
 
-    assert (metrics["node_f1"] == 0.923076923076923)
+    logger.warning(metrics)

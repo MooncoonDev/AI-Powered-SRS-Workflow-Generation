@@ -1,0 +1,34 @@
+digraph BankManagementSystem {
+
+    // Actors
+  node [shape = rectangle, style = filled, fillcolor = lightblue]
+Customer
+Admin
+
+// Functional Areas
+  node [shape = ellipse, style = filled, fillcolor = lightgreen]
+AccountManagement
+LoanManagement
+TransactionProcessing
+FraudDetection
+
+// Flows based on use cases
+  Customer -> AccountManagement [label = "Create Account"]
+Customer -> LoanManagement [label = "Apply for Loan"]
+Customer -> TransactionProcessing [label = "Deposit Money"]
+Customer -> TransactionProcessing [label = "Withdraw Money"]
+
+Admin -> AccountManagement [label = "Check Account Details"]
+Admin -> LoanManagement [label = "Check Loan Slips"]
+
+TransactionProcessing -> FraudDetection
+
+// Database
+  node [shape = cylinder, style = filled, fillcolor = tan]
+Database
+
+AccountManagement -> Database
+LoanManagement -> Database
+TransactionProcessing -> Database
+FraudDetection -> Database
+}
