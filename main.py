@@ -10,7 +10,8 @@ from typing import Callable, Dict
 from networkx import MultiDiGraph
 
 from config import setup_logging, PROCESSED_TXT_DATA_DIR, RAW_SRS_DIR
-from utils import dot_to_digraph, convert_all_pdfs_to_txt
+from inference import srs_file_to_dot
+from utils import convert_all_pdfs_to_txt
 
 
 logger = setup_logging(__name__, log_level=logging.DEBUG)
@@ -59,29 +60,11 @@ def calculate_metrics(gt_graph: MultiDiGraph, gen_graph: MultiDiGraph) -> Dict[s
 if __name__ == "__main__":
     # Data preprocessing.
     convert_all_pdfs_to_txt(RAW_SRS_DIR, PROCESSED_TXT_DATA_DIR)
-    # infer_dotfiles(RAW_DATA_DIR, PROCESSED_TXT_DATA_DIR)
 
-    ground_truth_dot = """
-    digraph workflow {
-      Start -> "Task 1" -> "Task 2";
-      "Task 2" -> "Task 3";
-      "Task 2" -> "Task 4";
-      "Task 3" -> End;
-      "Task 4" -> End;
-    }
-    """
+    # Infer each file to dotfile.
+    for srs_file in PROCESSED_TXT_DATA_DIR.iterdir():
+        dot = srs_file_to_dot(srs_file)
+        print(dot)
 
-    generated_dot = """
-    digraph workflow {
-      Start -> "Task 1" -> "Task 2";
-      "Task 2" -> "Task 3";
-      "Task 2" -> "Task 4";
-      "Task 3" -> "Task 5" -> End;
-      "Task 4" -> End;
-    }
-    """
-
-    ground_truth_graph, generated_graph = dot_to_digraph(ground_truth_dot), dot_to_digraph(generated_dot)
-    metrics = calculate_metrics(ground_truth_graph, generated_graph)
-
-    logger.warning(metrics)
+    # ground_truth_graph, generated_graph = dot_to_digraph(ground_truth_dot), dot_to_digraph(generated_dot)  #  #  #
+    # metrics = calculate_metrics(ground_truth_graph, generated_graph)  #  # logger.warning(metrics)
