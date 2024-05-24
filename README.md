@@ -14,9 +14,11 @@ well the system can automate this task. Evaluation metrics such as
 precision, recall, F1 score, and semantic similarity are used to quantify the system's effectiveness in capturing the
 intended workflows described in the SRS documents.
 
+A powerful Nvidia GPU is necessary for this to work within reasonable time frames.
+
 ## Dataset Description
 
-The following datasets are all included in the pipeline, and assigned a code for easy reference:
+The following datasets are all included in the pipeline and assigned a code for easy reference:
 
 | Code | URL                                                                                                                                                                                                                 |
 |------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -24,7 +26,6 @@ The following datasets are all included in the pipeline, and assigned a code for
 | B    | https://github.com/aliasar1/Hotel-Management-System-Documentation/blob/main/Software%20Design%20Specification%20(HMS).pdf                                                                                           |
 |
 | C    | https://github.com/vrinda41198/Digital-Bus-Automation-System/blob/main/Software%20Requirements%20Specification.pdf                                                                                                  |
-| D    | https://github.com/Gr0ki/book-catalog/blob/main/documentation/Software_Requirements_Specification.md                                                                                                                |
 | E    | https://github.com/munteanuic-zz/Voting-Aggregation-System/blob/main/WaterfallProject/SRS/SRS_Team5.pdf                                                                                                             |
 | F    | https://github.com/MuhammadKazim01/Software-Requirement-and-Design-Specifications-for-Bank-Management-System/blob/main/Software%20Requirement%20and%20Design%20Specification%20for%20Bank%20Management%20System.pdf |
 

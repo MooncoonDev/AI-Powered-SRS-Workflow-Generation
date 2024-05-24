@@ -1,21 +1,17 @@
 name: srs-llm
 channels:
   - pytorch
-  - huggingface
   - nvidia
   - conda-forge
   - nodefaults
 dependencies:
   - python>=3.12
-  - transformers
+  - transformers>=4.41.1
   - pytorch
-  # Comment below out if you don't have a GPU or nvidia drivers and being finicky.
   - pytorch-cuda=12.1
+  - accelerate
   - jinja2
   - networkx
   - pydot
-  - requests
   - pypdf2
-  - markdown
-  - beautifulsoup4
   - pip

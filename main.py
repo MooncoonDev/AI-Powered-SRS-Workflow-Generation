@@ -3,7 +3,6 @@ Copyright (c) 2024 Marcel Coetzee
 
 MIT License
 """
-import logging
 from statistics import harmonic_mean
 from typing import Callable, Dict
 
@@ -14,7 +13,7 @@ from inference import srs_file_to_dot
 from utils import convert_all_pdfs_to_txt
 
 
-logger = setup_logging(__name__, log_level=logging.DEBUG)
+logger = setup_logging(__name__)
 
 
 def calculate_metrics(gt_graph: MultiDiGraph, gen_graph: MultiDiGraph) -> Dict[str, float]:
@@ -64,7 +63,7 @@ if __name__ == "__main__":
     # Infer each file to dotfile.
     for srs_file in PROCESSED_TXT_DATA_DIR.iterdir():
         dot = srs_file_to_dot(srs_file)
-        print(dot)
+        logger.info(f"{srs_file}:\n{dot}\n")
 
     # ground_truth_graph, generated_graph = dot_to_digraph(ground_truth_dot), dot_to_digraph(generated_dot)  #  #  #
     # metrics = calculate_metrics(ground_truth_graph, generated_graph)  #  # logger.warning(metrics)
