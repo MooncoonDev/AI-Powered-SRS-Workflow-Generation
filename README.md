@@ -49,14 +49,16 @@ The task of the LLM is to generate workflow graphs in DOT format, matching the f
    bash Miniforge3-$(uname)-$(uname -m).sh
    ```
 
-2. Navigate to the project root and create the virtual environment:
+2. Create the virtual environment:
    ```bash 
-   mamba env create
+   mamba create -n srs-llm python=3.12 pip setuptools wheel -y
    ```
 
-3. Activate the virtual environment with all necessary packages installed:
+3. Activate the virtual environment and install project dependencies:
    ```bash
    mamba activate srs-llm
+   pip install uv 
+   uv pip install 
    ```
 
 ## Running the Project
