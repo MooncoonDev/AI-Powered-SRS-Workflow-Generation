@@ -18,7 +18,8 @@ HF_MODEL = "BarraHome/Mistroll-7B-v2.2"
 
 model_id = HF_MODEL
 
-prompt_template: Template | Any = Template("""
+prompt_template: Template | Any = Template(
+    """
 # Identity and Purpose
 
 You're an expert systems analyst with 40 years of experience that takes a Software Requirement Specifications (SRS) 
@@ -38,11 +39,14 @@ Take a deep breath and think step by step about how to answer to question or imp
 
 Here is the SRS document:
 {{ srs }}
-""")
+"""
+)
 
 
 def setup_logging(name: str, log_level: int = logging.INFO) -> Logger:
-    formatter = logging.Formatter('%(asctime)s | %(levelname)-8s | %(name)s.%(funcName)s:%(lineno)d | %(message)s')
+    formatter = logging.Formatter(
+        "%(asctime)s | %(levelname)-8s | %(name)s.%(funcName)s:%(lineno)d | %(message)s"
+    )
 
     handler = logging.StreamHandler()
     handler.setFormatter(formatter)

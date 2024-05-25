@@ -4,10 +4,9 @@ Copyright (c) 2024 Marcel Coetzee
 MIT License
 """
 
-from srs_llm.config import setup_logging, PROCESSED_TXT_DATA_DIR, RAW_SRS_DIR
+from srs_llm.config import PROCESSED_TXT_DATA_DIR, RAW_SRS_DIR, setup_logging
 from srs_llm.inference import srs_file_to_dot
 from srs_llm.utils import convert_all_pdfs_to_txt
-
 
 logger = setup_logging(__name__)
 
