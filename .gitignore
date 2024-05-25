@@ -124,5 +124,11 @@ dmypy.json
 .pyre/
 .pytype/
 cython_debug/
-/data/processed/txt/
 .idea
+
+/data/processed/txt/*
+!/data/processed/txt/
+/data/processed/dot/*
+!/data/processed/dot/
+!/data/processed/txt/.gitkeep
+!/data/processed/dot/.gitkeep

@@ -58,7 +58,7 @@ The task of the LLM is to generate workflow graphs in DOT format, matching the f
    ```bash
    mamba activate srs-llm
    pip install uv 
-   uv pip install 
+   uv pip install -r requirements.txt
    ```
 
 ## Running the Project
