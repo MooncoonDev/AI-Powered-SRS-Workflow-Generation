@@ -14,7 +14,7 @@ PROCESSED_DATA_DIR = DATA_DIR / "processed"
 PROCESSED_DOT_DATA_DIR = PROCESSED_DATA_DIR / "dot"
 PROCESSED_TXT_DATA_DIR = PROCESSED_DATA_DIR / "txt"
 
-HF_MODEL = "BarraHome/Mistroll-7B-v2.2"
+HF_MODEL = "microsoft/Phi-3-mini-4k-instruct"
 
 model_id = HF_MODEL
 
