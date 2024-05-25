@@ -11,7 +11,7 @@ from PyPDF2 import PdfReader
 from networkx import MultiDiGraph
 from networkx.drawing.nx_pydot import from_pydot
 
-from config import setup_logging
+from srs_llm.config import setup_logging
 
 
 logger = setup_logging(__name__)
