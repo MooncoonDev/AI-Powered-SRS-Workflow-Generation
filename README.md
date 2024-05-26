@@ -43,7 +43,7 @@ The task of the LLM is to generate workflow graphs in DOT format, matching the f
 
 ### Software Requirements
 
-1. Install the miniforge package manager:
+1. Install the miniforge package manager and follow instructions:
    ```bash
    curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
    bash Miniforge3-$(uname)-$(uname -m).sh
@@ -54,10 +54,9 @@ The task of the LLM is to generate workflow graphs in DOT format, matching the f
    mamba create -n srs-llm python=3.12 pip setuptools wheel uv -y
    ```
 
-3. Activate the virtual environment and install project dependencies:
+3. Navigate to the project root and install project dependencies:
    ```bash
-   mamba activate srs-llm
-   uv pip install -r requirements.txt
+   mamba run -n srs-llm uv pip install -r requirements.txt
    ```
 
 ## Running the Project
