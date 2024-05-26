@@ -5,14 +5,13 @@ MIT License
 """
 
 import os
-import subprocess
-from pathlib import Path
-from typing import Union
-
 import pydot
+import subprocess
 from PyPDF2 import PdfReader
 from networkx import MultiDiGraph
 from networkx.drawing.nx_pydot import from_pydot, write_dot
+from pathlib import Path
+from typing import Union
 
 from srs_llm.config import setup_logging
 
@@ -80,7 +79,9 @@ def generate_visual_workflow_graph(
         logger.debug(f"Exported dotfile to {dotfile_path}")
 
         visual_path = Path(visual_export_dir) / "workflow.png"
-        subprocess.run(["dot", "-Tpng", dotfile_path, "-o", visual_path], check=True)
+        subprocess.run(
+            ["dot", "-Tpng", dotfile_path, "-o", visual_path], check=True
+        )
         logger.debug(f"Exported PNG visual to {visual_path}")
 
     except Exception as e:

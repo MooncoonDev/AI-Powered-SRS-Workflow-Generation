@@ -4,12 +4,11 @@ Copyright (c) 2024 Marcel Coetzee
 MIT License
 """
 
+from networkx import MultiDiGraph
 from pathlib import Path
 from statistics import harmonic_mean
-from typing import Dict
-
-from networkx import MultiDiGraph
 from transformers import pipeline
+from typing import Dict
 
 from srs_llm.config import HF_MODEL, prompt_template, setup_logging
 from srs_llm.utils import dot_to_digraph

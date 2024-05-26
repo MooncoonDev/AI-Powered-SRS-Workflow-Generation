@@ -1,9 +1,8 @@
 import logging
+from jinja2 import Template
 from logging import Logger
 from pathlib import Path
 from typing import Any
-
-from jinja2 import Template
 
 
 DATA_DIR = Path("data")

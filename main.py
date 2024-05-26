@@ -3,9 +3,8 @@ Copyright (c) 2024 Marcel Coetzee
 
 MIT License
 """
-from pathlib import Path
-
 from networkx import MultiDiGraph
+from pathlib import Path
 
 from srs_llm.config import PROCESSED_TXT_DATA_DIR, RAW_SRS_DIR, setup_logging, PROCESSED_DOT_DATA_DIR, \
     VISUAL_REPRESENTATIONS_DATA_DIR

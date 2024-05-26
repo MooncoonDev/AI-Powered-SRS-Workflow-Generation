@@ -56,7 +56,8 @@ The task of the LLM is to generate workflow graphs in DOT format, matching the f
 
 3. Navigate to the project root and install project dependencies:
    ```bash
-   mamba run -n srs-llm uv pip install -r requirements.txt
+   mamba run --no-capture-output --live-stream -n srs-llm \
+       uv pip install -r requirements.txt
    ```
 
 ## Running the Project
@@ -64,7 +65,8 @@ The task of the LLM is to generate workflow graphs in DOT format, matching the f
 To run the project, execute the following command in the terminal:
 
 ```bash
-python main.py
+mamba run --no-capture-output --live-stream -n srs-llm \
+    python main.py
 ```
 
 ## License
