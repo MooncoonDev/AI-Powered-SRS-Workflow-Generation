@@ -13,8 +13,9 @@ GROUND_TRUTH_DATA_DIR = RAW_DATA_DIR / "reference-dot"
 PROCESSED_DATA_DIR = DATA_DIR / "processed"
 PROCESSED_DOT_DATA_DIR = PROCESSED_DATA_DIR / "dot"
 PROCESSED_TXT_DATA_DIR = PROCESSED_DATA_DIR / "txt"
+VISUAL_REPRESENTATIONS_DATA_DIR = PROCESSED_DATA_DIR / "visual_representations"
 
-HF_MODEL = "microsoft/Phi-3-mini-4k-instruct"
+HF_MODEL = "BarraHome/Mistroll-7B-v2.2"
 
 model_id = HF_MODEL
 

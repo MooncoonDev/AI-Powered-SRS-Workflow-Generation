@@ -5,12 +5,14 @@ MIT License
 """
 
 import os
+import subprocess
+from pathlib import Path
 from typing import Union
 
 import pydot
 from PyPDF2 import PdfReader
 from networkx import MultiDiGraph
-from networkx.drawing.nx_pydot import from_pydot
+from networkx.drawing.nx_pydot import from_pydot, write_dot
 
 from srs_llm.config import setup_logging
 
@@ -63,4 +65,24 @@ def convert_all_pdfs_to_txt(raw_dir: str, processed_dir: str) -> None:
         convert_pdf_to_txt(pdf_path, txt_path)
 
 
-def generate_visual_workflow_graph(digraph: MultiDiGraph) -> None: ...
+def generate_visual_workflow_graph(
+        digraph: MultiDiGraph,
+        dotfile_export_dir: Path | str,
+        visual_export_dir: Path | str,
+) -> None:
+    """
+    Exports the given DiGraph instance as a dotfile in `dotfile_export_dir`,
+    and the accompanying PNG visual representation in `visual_export_dir`.
+    """
+    try:
+        dotfile_path = Path(dotfile_export_dir)
+        write_dot(digraph, dotfile_path)
+        logger.debug(f"Exported dotfile to {dotfile_path}")
+
+        visual_path = Path(visual_export_dir) / "workflow.png"
+        subprocess.run(["dot", "-Tpng", dotfile_path, "-o", visual_path], check=True)
+        logger.debug(f"Exported PNG visual to {visual_path}")
+
+    except Exception as e:
+        logger.exception(f"Error generating visual workflow graph: {e}")
+        raise

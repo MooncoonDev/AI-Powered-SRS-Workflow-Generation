@@ -39,7 +39,7 @@ The task of the LLM is to generate workflow graphs in DOT format, matching the f
 
 ### Hardware Requirements
 
-- Nvidia GeForce A100 GPU (used in this experiment)
+- At least a Nvidia GeForce A100 GPU.
 
 ### Software Requirements
 
@@ -51,13 +51,12 @@ The task of the LLM is to generate workflow graphs in DOT format, matching the f
 
 2. Create the virtual environment:
    ```bash 
-   mamba create -n srs-llm python=3.12 pip setuptools wheel -y
+   mamba create -n srs-llm python=3.12 pip setuptools wheel uv -y
    ```
 
 3. Activate the virtual environment and install project dependencies:
    ```bash
    mamba activate srs-llm
-   pip install uv 
    uv pip install -r requirements.txt
    ```
 
