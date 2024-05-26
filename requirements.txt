@@ -1,7 +1,7 @@
 transformers>=4.41.1
-sentencepiece
+bitsandbytes
+accelerate
 torch
-protobuf
 jinja2
 networkx
 pydot

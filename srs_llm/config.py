@@ -19,8 +19,7 @@ HF_MODEL = "vicgalle/CarbonBeagle-11B-truthy"
 
 model_id = HF_MODEL
 
-prompt_template: Template | Any = Template(
-    """
+system_prompt: str = """
 # Identity and Purpose
 
 You're an expert systems analyst with 40 years of experience that takes a Software Requirement Specifications (SRS) 
@@ -37,8 +36,10 @@ digraph G {
 
 Take a deep breath and think step by step about how to answer to question or implement the fix. I will give you $10,
 000 if you can do this, this was my late grandmother's dying wish, kittens will die if you can't help me fix it.
+"""
 
-Here is the SRS document:
+prompt_template: Template | Any = Template(
+    """ Here is the SRS document:
 
 ===
 {{ srs }}

@@ -9,9 +9,9 @@ from statistics import harmonic_mean
 from typing import Dict
 
 from networkx import MultiDiGraph
-from transformers import pipeline
+from transformers import (pipeline, BitsAndBytesConfig, AutoModelForCausalLM, AutoTokenizer, )
 
-from srs_llm.config import HF_MODEL, prompt_template, setup_logging
+from srs_llm.config import (HF_MODEL, prompt_template, setup_logging, system_prompt, )
 from srs_llm.utils import dot_to_digraph
 
 
@@ -19,14 +19,16 @@ logger = setup_logging(__name__)
 
 
 def generate_dot(srs: str) -> str:
-    messages = [
-        {"role": "user", "content": prompt_template.render(srs=srs).strip()}
-    ]
-    pipe = pipeline("text-generation", model=HF_MODEL, device="cuda")
+    messages = [{"role": "system", "content": system_prompt},
+                {"role": "user", "content": prompt_template.render(srs=srs).strip()}]
 
-    outputs = pipe(
-        messages, max_new_tokens=800, do_sample=False, num_return_sequences=1
-    )
+    model = AutoModelForCausalLM.from_pretrained(HF_MODEL, quantization_config=BitsAndBytesConfig(load_in_8bit=True))
+    tokenizer = AutoTokenizer.from_pretrained(HF_MODEL)
+
+    pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
+
+    outputs = pipe(messages, max_new_tokens=200, do_sample=True, num_return_sequences=1,
+                   eos_token_id=tokenizer.eos_token_id, repetition_penalty=1.2, temperature=0.01, top_p=0.9)
     return outputs[0]["generated_text"]
 
 
@@ -44,9 +46,7 @@ def srs_file_to_dot(srs_document_path: Path | str) -> MultiDiGraph:
     return inferred_digraph
 
 
-def calculate_metrics(
-        gt_graph: MultiDiGraph, gen_graph: MultiDiGraph
-) -> Dict[str, float]:
+def calculate_metrics(gt_graph: MultiDiGraph, gen_graph: MultiDiGraph) -> Dict[str, float]:
     """
     Calculate the precision, recall, and F1-score metrics for node and edge predictions.
 
@@ -70,6 +70,7 @@ def calculate_metrics(
     def f1_score(p: float, r: float) -> float:
         return harmonic_mean([p, r]) if p + r > 0 else 0
 
+
     gt_nodes, gt_edges = set(gt_graph.nodes), set(gt_graph.edges)
     gen_nodes, gen_edges = set(gen_graph.nodes), set(gen_graph.edges)
 
@@ -80,15 +81,9 @@ def calculate_metrics(
     node_fp, edge_fp = len(gen_nodes - gt_nodes), len(gen_edges - gt_edges)
     node_fn, edge_fn = len(gt_nodes - gen_nodes), len(gt_edges - gen_edges)
 
-    node_precision, edge_precision = precision(node_tp, node_fp), precision(
-        edge_tp, edge_fp
-    )
-    node_recall, edge_recall = recall(node_tp, node_fn), recall(
-        edge_tp, edge_fn
-    )
-    node_f1, edge_f1 = f1_score(node_precision, node_recall), f1_score(
-        edge_precision, edge_recall
-    )
+    node_precision, edge_precision = precision(node_tp, node_fp), precision(edge_tp, edge_fp)
+    node_recall, edge_recall = recall(node_tp, node_fn), recall(edge_tp, edge_fn)
+    node_f1, edge_f1 = f1_score(node_precision, node_recall), f1_score(edge_precision, edge_recall)
 
     # We take the harmonic mean instead of raw tp + fp etc.
     # because we don't want the more numerous edges to potentially down out the nodes.
@@ -96,14 +91,6 @@ def calculate_metrics(
     overall_recall = harmonic_mean([node_recall, edge_recall])
     overall_f1 = f1_score(overall_precision, overall_recall)
 
-    return {
-        "node_precision": node_precision,
-        "node_recall": node_recall,
-        "node_f1": node_f1,
-        "edge_precision": edge_precision,
-        "edge_recall": edge_recall,
-        "edge_f1": edge_f1,
-        "precision": overall_precision,
-        "recall": overall_recall,
-        "f1": overall_f1,
-    }
+    return {"node_precision": node_precision, "node_recall": node_recall, "node_f1": node_f1,
+            "edge_precision": edge_precision, "edge_recall": edge_recall, "edge_f1": edge_f1,
+            "precision": overall_precision, "recall": overall_recall, "f1": overall_f1, }
