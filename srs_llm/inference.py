@@ -9,9 +9,9 @@ from statistics import harmonic_mean
 from typing import Dict
 
 from networkx import MultiDiGraph
-from transformers import (pipeline, BitsAndBytesConfig, AutoModelForCausalLM, AutoTokenizer, )
+from transformers import (pipeline, AutoModelForCausalLM, AutoTokenizer, )
 
-from srs_llm.config import (HF_MODEL, prompt_template, setup_logging, system_prompt, )
+from srs_llm.config import (HF_MODEL, prompt_template, setup_logging, system_prompt, extract_workflow_text, )
 from srs_llm.utils import dot_to_digraph
 
 
@@ -22,14 +22,14 @@ def generate_dot(srs: str) -> str:
     messages = [{"role": "system", "content": system_prompt},
                 {"role": "user", "content": prompt_template.render(srs=srs).strip()}]
 
-    model = AutoModelForCausalLM.from_pretrained(HF_MODEL, quantization_config=BitsAndBytesConfig(load_in_8bit=True))
+    model = AutoModelForCausalLM.from_pretrained(HF_MODEL)
     tokenizer = AutoTokenizer.from_pretrained(HF_MODEL)
 
-    pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
+    pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, device="cuda")
 
-    outputs = pipe(messages, max_new_tokens=200, do_sample=True, num_return_sequences=1,
-                   eos_token_id=tokenizer.eos_token_id, repetition_penalty=1.2, temperature=0.01, top_p=0.9)
-    return outputs[0]["generated_text"]
+    outputs = pipe(messages, max_new_tokens=1000, do_sample=False, num_return_sequences=1)
+    assistant_answer = outputs[0]["generated_text"][-1]['content']
+    return extract_workflow_text(assistant_answer).strip()
 
 
 def srs_file_to_dot(srs_document_path: Path | str) -> MultiDiGraph:
@@ -86,7 +86,7 @@ def calculate_metrics(gt_graph: MultiDiGraph, gen_graph: MultiDiGraph) -> Dict[s
     node_f1, edge_f1 = f1_score(node_precision, node_recall), f1_score(edge_precision, edge_recall)
 
     # We take the harmonic mean instead of raw tp + fp etc.
-    # because we don't want the more numerous edges to potentially down out the nodes.
+    # because we don't want the more numerous edges to potentially drown out the nodes.
     overall_precision = harmonic_mean([node_precision, edge_precision])
     overall_recall = harmonic_mean([node_recall, edge_recall])
     overall_f1 = f1_score(overall_precision, overall_recall)
