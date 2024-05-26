@@ -4,11 +4,12 @@ Copyright (c) 2024 Marcel Coetzee
 MIT License
 """
 
-from networkx import MultiDiGraph
 from pathlib import Path
 from statistics import harmonic_mean
-from transformers import pipeline
 from typing import Dict
+
+from networkx import MultiDiGraph
+from transformers import pipeline
 
 from srs_llm.config import HF_MODEL, prompt_template, setup_logging
 from srs_llm.utils import dot_to_digraph
@@ -35,6 +36,7 @@ def srs_file_to_dot(srs_document_path: Path | str) -> MultiDiGraph:
 
     try:
         inferred_dot = generate_dot(srs)
+        logger.info(f"Model generated the following dotfile:\n\n\n{inferred_dot}\n\n\n")
         inferred_digraph: MultiDiGraph = dot_to_digraph(inferred_dot)
     except Exception as e:
         logger.error(e)

@@ -1,8 +1,9 @@
 import logging
-from jinja2 import Template
 from logging import Logger
 from pathlib import Path
 from typing import Any
+
+from jinja2 import Template
 
 
 DATA_DIR = Path("data")
@@ -14,7 +15,7 @@ PROCESSED_DOT_DATA_DIR = PROCESSED_DATA_DIR / "dot"
 PROCESSED_TXT_DATA_DIR = PROCESSED_DATA_DIR / "txt"
 VISUAL_REPRESENTATIONS_DATA_DIR = PROCESSED_DATA_DIR / "visual_representations"
 
-HF_MODEL = "BarraHome/Mistroll-7B-v2.2"
+HF_MODEL = "vicgalle/CarbonBeagle-11B-truthy"
 
 model_id = HF_MODEL
 
@@ -38,7 +39,10 @@ Take a deep breath and think step by step about how to answer to question or imp
 000 if you can do this, this was my late grandmother's dying wish, kittens will die if you can't help me fix it.
 
 Here is the SRS document:
+
+===
 {{ srs }}
+===
 """
 )
 
