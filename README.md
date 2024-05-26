@@ -39,22 +39,30 @@ The task of the LLM is to generate workflow graphs in DOT format, matching the f
 
 ### Hardware Requirements
 
-- At least a Nvidia GeForce A100 GPU.
+- At least an Nvidia GeForce A100 GPU.
 
 ### Software Requirements
 
-1. Install the miniforge package manager and follow instructions:
+This repo assumes a debian-based distro (linux).
+
+1. Install the Graphviz visualization software:
+   ```bash
+   sudo apt update
+   sudo apt install graphviz -y
+   ```
+
+2. Install the miniforge package manager and follow instructions:
    ```bash
    curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
    bash Miniforge3-$(uname)-$(uname -m).sh
    ```
 
-2. Create the virtual environment:
+3. Create the virtual environment:
    ```bash 
    mamba create -n srs-llm python=3.12 pip setuptools wheel uv -y
    ```
 
-3. Navigate to the project root and install project dependencies:
+4. Navigate to the project root and install project dependencies:
    ```bash
    mamba run --no-capture-output --live-stream -n srs-llm \
        uv pip install -r requirements.txt

@@ -127,8 +127,9 @@ cython_debug/
 .idea
 
 /data/processed/txt/*
-!/data/processed/txt/
 /data/processed/dot/*
-!/data/processed/dot/
+/data/processed/visual_representations/*
+
 !/data/processed/txt/.gitkeep
 !/data/processed/dot/.gitkeep
+!/data/processed/visual_representations/.gitkeep

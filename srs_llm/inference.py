@@ -38,7 +38,7 @@ def srs_file_to_dot(srs_document_path: Path | str) -> MultiDiGraph:
 
     try:
         inferred_dot = generate_dot(srs)
-        logger.info(f"Model generated the following dotfile:\n\n\n{inferred_dot}\n\n\n")
+        logger.debug(f"Model generated the following dotfile:\n{inferred_dot}")
         inferred_digraph: MultiDiGraph = dot_to_digraph(inferred_dot)
     except Exception as e:
         logger.error(e)

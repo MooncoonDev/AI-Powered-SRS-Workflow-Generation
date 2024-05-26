@@ -103,10 +103,10 @@ def setup_logging(name: str, log_level: int = logging.INFO) -> Logger:
     return logger
 
 
-def extract_workflow_text(xml_string):
+def extract_workflow_text(xml_string: str) -> str:
     """Extract the text from the workflow tag."""
     soup = BeautifulSoup(xml_string, 'xml')
     if workflow_tag := soup.find('workflow'):
         return workflow_tag.get_text()
     else:
-        return None
+        raise ValueError(f"No workflow tag found in XML string: {xml_string}")

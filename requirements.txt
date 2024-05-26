@@ -4,5 +4,6 @@ jinja2
 networkx
 beautifulsoup4
 lxml
+graphviz
 pydot
 pypdf2
