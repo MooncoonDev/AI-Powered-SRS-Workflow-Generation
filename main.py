@@ -3,8 +3,9 @@ Copyright (c) 2024 Marcel Coetzee
 
 MIT License
 """
-from networkx import MultiDiGraph
 from pathlib import Path
+
+from networkx import MultiDiGraph
 
 from srs_llm.config import PROCESSED_TXT_DATA_DIR, RAW_SRS_DIR, setup_logging, PROCESSED_DOT_DATA_DIR, \
     VISUAL_REPRESENTATIONS_DATA_DIR
@@ -21,7 +22,9 @@ def main() -> None:
 
     # Infer each file to dotfile and get accompanying visual representation.
     for srs_file in PROCESSED_TXT_DATA_DIR.iterdir():
-        dot: MultiDiGraph = srs_file_to_dot(srs_file)
+        dot: MultiDiGraph | None = srs_file_to_dot(srs_file)
+        if not dot:
+            continue
         file_name = srs_file.stem
         dotfile_file_path: Path = PROCESSED_DOT_DATA_DIR / f"{file_name}.dot"
         png_file_path: Path = VISUAL_REPRESENTATIONS_DATA_DIR / f"{file_name}.png"

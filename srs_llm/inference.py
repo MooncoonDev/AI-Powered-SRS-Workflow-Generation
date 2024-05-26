@@ -32,18 +32,21 @@ def generate_dot(srs: str) -> str:
     return extract_workflow_text(assistant_answer).strip()
 
 
-def srs_file_to_dot(srs_document_path: Path | str) -> MultiDiGraph:
+def srs_file_to_dot(srs_document_path: Path | str) -> MultiDiGraph | None:
     logger.debug(f"Inferring dotfile from {srs_document_path}...")
     srs: str = Path(srs_document_path).read_text()
 
+    inferred_dot = generate_dot(srs)
+    logger.debug(f"Model generated the following dotfile:\n{inferred_dot}")
     try:
-        inferred_dot = generate_dot(srs)
-        logger.debug(f"Model generated the following dotfile:\n{inferred_dot}")
         inferred_digraph: MultiDiGraph = dot_to_digraph(inferred_dot)
-    except Exception as e:
-        logger.error(e)
+        return inferred_digraph
+    except TypeError as e:
+        logger.warning(f"The inferred dotfile for SRS document {srs_document_path.stem}"
+                       f" is malformed! Skipping {srs_document_path.stem}...")
+        return
+    except:
         raise
-    return inferred_digraph
 
 
 def calculate_metrics(gt_graph: MultiDiGraph, gen_graph: MultiDiGraph) -> Dict[str, float]:

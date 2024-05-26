@@ -77,6 +77,12 @@ mamba run --no-capture-output --live-stream -n srs-llm \
     python main.py
 ```
 
+### Example of a Generated Visual
+
+#### SRS `A`
+
+![Visual Representation SRS A](assets/A.png)
+
 ## License
 
 This project is licensed under the MIT Licence.

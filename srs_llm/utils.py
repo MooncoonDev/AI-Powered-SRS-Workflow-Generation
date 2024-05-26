@@ -89,13 +89,10 @@ def generate_visual_workflow_graph(digraph: MultiDiGraph, dotfile_file_path: Pat
     dotfile_file_path = Path(dotfile_file_path)
     png_file_path = Path(png_file_path)
 
-    logger.info(dotfile_file_path)
-    logger.info(png_file_path)
-
-    write_dot(digraph, dotfile_file_path)
-    logger.info(f"Exported dotfile to {dotfile_file_path}")
-
     try:
+        write_dot(digraph, dotfile_file_path)
+        logger.info(f"Exported dotfile to {dotfile_file_path}")
+
         graphviz.render('dot', filepath=dotfile_file_path, outfile=png_file_path)
         logger.info(f"Exported PNG visual to {png_file_path}.")
     except graphviz.ExecutableNotFound as e:
