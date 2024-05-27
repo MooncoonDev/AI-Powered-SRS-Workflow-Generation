@@ -7,7 +7,6 @@ from bs4 import BeautifulSoup
 from jinja2 import Template
 from transformers import logging as transformers_logging
 
-
 DATA_DIR = Path("data")
 RAW_DATA_DIR = DATA_DIR / "raw"
 RAW_SRS_DIR = RAW_DATA_DIR / "pdf"
@@ -86,13 +85,17 @@ digraph {
 <|endoftext|>
 """
 
-prompt_template: Template | Any = Template("""<srs>
+prompt_template: Template | Any = Template(
+    """<srs>
     {{ srs }}
-    </srs>""")
+    </srs>"""
+)
 
 
 def setup_logging(name: str, log_level: int = logging.INFO) -> Logger:
-    formatter = logging.Formatter("%(asctime)s | %(levelname)-8s | %(name)s.%(funcName)s:%(lineno)d | %(message)s")
+    formatter = logging.Formatter(
+        "%(asctime)s | %(levelname)-8s | %(name)s.%(funcName)s:%(lineno)d | %(message)s"
+    )
 
     handler = logging.StreamHandler()
     handler.setFormatter(formatter)
@@ -106,8 +109,8 @@ def setup_logging(name: str, log_level: int = logging.INFO) -> Logger:
 
 def extract_workflow_text(xml_string: str) -> str:
     """Extract the text from the workflow tag."""
-    soup = BeautifulSoup(xml_string, 'xml')
-    if workflow_tag := soup.find('workflow'):
+    soup = BeautifulSoup(xml_string, "xml")
+    if workflow_tag := soup.find("workflow"):
         return workflow_tag.get_text()
     else:
         raise ValueError(f"No workflow tag found in XML string: {xml_string}")

@@ -10,12 +10,11 @@ from typing import Union
 
 import graphviz
 import pydot
-from PyPDF2 import PdfReader
 from networkx import MultiDiGraph
 from networkx.drawing.nx_pydot import from_pydot, write_dot
+from PyPDF2 import PdfReader
 
 from srs_llm.config import setup_logging
-
 
 logger = setup_logging(__name__)
 
@@ -30,7 +29,9 @@ def dot_to_digraph(dot_string: str) -> MultiDiGraph:
     Returns:
         A NetworkX MultiDiGraph object.
     """
-    pgraph: Union[pydot.Dot, pydot.Graph, pydot.Cluster] = (pydot.graph_from_dot_data(dot_string)[0])
+    pgraph: Union[pydot.Dot, pydot.Graph, pydot.Cluster] = (
+        pydot.graph_from_dot_data(dot_string)[0]
+    )
     return from_pydot(pgraph)
 
 
@@ -67,11 +68,15 @@ class GraphvizExecutableNotFoundError(Exception):
     """
     Exception is raised when the Graphviz executable is not found.
     """
+
     pass
 
 
-def generate_visual_workflow_graph(digraph: MultiDiGraph, dotfile_file_path: Path | str,
-                                   png_file_path: Path | str) -> None:
+def generate_visual_workflow_graph(
+    digraph: MultiDiGraph,
+    dotfile_file_path: Path | str,
+    png_file_path: Path | str,
+) -> None:
     """
     Generates a visual workflow graph from a MultiDiGraph and exports it to a PNG file.
 
@@ -93,10 +98,13 @@ def generate_visual_workflow_graph(digraph: MultiDiGraph, dotfile_file_path: Pat
         write_dot(digraph, dotfile_file_path)
         logger.info(f"Exported dotfile to {dotfile_file_path}")
 
-        graphviz.render('dot', filepath=dotfile_file_path, outfile=png_file_path)
+        graphviz.render(
+            "dot", filepath=dotfile_file_path, outfile=png_file_path
+        )
         logger.info(f"Exported PNG visual to {png_file_path}.")
     except graphviz.ExecutableNotFound as e:
         raise GraphvizExecutableNotFoundError(
-            "Graphviz executables not found on system PATH!\nPlease install as instructed in README.") from e
+            "Graphviz executables not found on system PATH!\nPlease install as instructed in README."
+        ) from e
     except:
         raise
