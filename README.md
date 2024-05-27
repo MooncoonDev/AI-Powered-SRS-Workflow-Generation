@@ -39,7 +39,7 @@ The task of the LLM is to generate workflow graphs in DOT format, matching the f
 
 ### Hardware Requirements
 
-- At least an Nvidia GeForce A100 GPU.
+- At least an Nvidia GeForce A100 GPU for the default 7B, full precision model.
 
 ### Software Requirements
 
@@ -81,7 +81,90 @@ mamba run --no-capture-output --live-stream -n srs-llm \
 
 #### SRS `A`
 
-![Visual Representation SRS A](assets/A.png)
+![Visual Representation SRS A](assets/A-generated.png)
+
+## Analysis of Results
+
+Here is the output of one run:
+
+```text
+/home/ubuntu/miniforge3/envs/srs-llm/bin/python /tmp/pycharm_project_422/main.py 
+bash: warning: setlocale: LC_ALL: cannot change locale (en_ZA.UTF-8)
+Loading checkpoint shards: 100%|██████████████████| 3/3 [00:02<00:00,  1.23it/s]
+2024-05-27 11:09:16,075 | INFO     | srs_llm.utils.generate_visual_workflow_graph:94 | Exported dotfile to data/processed/dot/A.dot
+2024-05-27 11:09:16,120 | INFO     | srs_llm.utils.generate_visual_workflow_graph:97 | Exported PNG visual to data/processed/visual_representations/A.png.
+2024-05-27 11:09:16,195 | INFO     | __main__.main:41 | {'node_precision': 0.0, 'node_recall': 0.0, 'node_f1': 0, 'edge_precision': 0.0, 'edge_recall': 0.0, 'edge_f1': 0, 'precision': 0, 'recall': 0, 'f1': 0}
+  "Run Algorithm" [label="IR"] -> "Check for Winner"
+                               ^
+Expected graph_stmt, found '-'  (at char 168), (line:5, col:32)
+2024-05-27 11:09:44,600 | WARNING  | srs_llm.inference.srs_file_to_dot:47 | The inferred dotfile for SRS document E is malformed! Skipping E...
+2024-05-27 11:10:11,648 | INFO     | srs_llm.utils.generate_visual_workflow_graph:94 | Exported dotfile to data/processed/dot/F.dot
+2024-05-27 11:10:11,712 | INFO     | srs_llm.utils.generate_visual_workflow_graph:97 | Exported PNG visual to data/processed/visual_representations/F.png.
+2024-05-27 11:10:11,830 | INFO     | __main__.main:41 | {'node_precision': 0.0, 'node_recall': 0.0, 'node_f1': 0, 'edge_precision': 0.0, 'edge_recall': 0.0, 'edge_f1': 0, 'precision': 0, 'recall': 0, 'f1': 0}
+2024-05-27 11:10:54,053 | INFO     | srs_llm.utils.generate_visual_workflow_graph:94 | Exported dotfile to data/processed/dot/B.dot
+2024-05-27 11:10:54,282 | INFO     | srs_llm.utils.generate_visual_workflow_graph:97 | Exported PNG visual to data/processed/visual_representations/B.png.
+2024-05-27 11:10:54,314 | INFO     | __main__.main:41 | {'node_precision': 0.027777777777777776, 'node_recall': 0.05555555555555555, 'node_f1': 0.037037037037037035, 'edge_precision': 0.0, 'edge_recall': 0.0, 'edge_f1': 0, 'precision': 0, 'recall': 0, 'f1': 0}
+2024-05-27 11:11:27,916 | INFO     | srs_llm.utils.generate_visual_workflow_graph:94 | Exported dotfile to data/processed/dot/C.dot
+2024-05-27 11:11:27,999 | INFO     | srs_llm.utils.generate_visual_workflow_graph:97 | Exported PNG visual to data/processed/visual_representations/C.png.
+2024-05-27 11:11:28,073 | INFO     | __main__.main:41 | {'node_precision': 0.125, 'node_recall': 0.42857142857142855, 'node_f1': 0.1935483870967742, 'edge_precision': 0.0, 'edge_recall': 0.0, 'edge_f1': 0, 'precision': 0, 'recall': 0, 'f1': 0}
+
+Process finished with exit code 0
+```
+
+The observed performance of the model demonstrates a notable proficiency in accurately identifying nodes within the
+workflow graphs. However, it encounters significant challenges when it comes to predicting edges.
+
+This discrepancy in performance is understandable, given the inherent complexity and lower probability associated with
+accurately forecasting the connections or relationships (edges) between nodes. The visual representations of the
+generated workflow graphs align with these findings, further substantiating the quantitative metrics that highlight the
+model's strengths in node identification and its difficulties with edge prediction.
+
+### SRS A
+
+For A, the visuals correspond with the f1 score of 0:
+
+**Ground Truth A**:
+
+![Visual Representation Ground Truth SRS A](assets/A.png)
+
+**Generated A**:
+
+![Visual Representation Generated SRS A](assets/A-generated.png)
+
+### SRS C
+
+For C, the visuals correspond with the f1 score of 0.19:
+
+**Ground Truth C**:
+
+![Visual Representation Ground Truth SRS C](assets/C.png)
+
+**Generated C**:
+
+![Visual Representation Generated SRS C](assets/C-generated.png)
+
+## Possible Improvements
+
+### Enhance Edge Prediction with Graph Neural Networks (GNNs):
+
+Implement Graph Neural Networks (GNNs) to improve edge prediction accuracy. GNNs are particularly well-suited for tasks
+involving graph-structured data and can help in accurately modeling the relationships (edges) between nodes in the
+workflow graphs. Training a GNN alongside the existing language models could provide a more nuanced understanding of the
+connections between different elements in the SRS documents.
+
+### Data Augmentation for Edge Cases:
+
+Augment the training dataset with synthetic examples that specifically target edge cases and complex relationships not
+well-represented in the current dataset. This can be achieved by manually crafting additional examples or using
+techniques like back-translation to generate new training samples. The goal is to provide the model with a broader
+variety of examples to learn from, particularly focusing on the relationships between nodes.
+
+### External Knowledge Bases:
+
+Integrate external knowledge bases or ontologies relevant to the domain of the SRS documents being processed. This can
+provide additional context and information that can aid in accurately predicting edges in the workflow graphs. For
+example, using a software engineering ontology could help the model understand common patterns and relationships in
+software development processes.
 
 ## License
 
