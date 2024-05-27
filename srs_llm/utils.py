@@ -10,11 +10,12 @@ from typing import Union
 
 import graphviz
 import pydot
+from PyPDF2 import PdfReader
 from networkx import MultiDiGraph
 from networkx.drawing.nx_pydot import from_pydot, write_dot
-from PyPDF2 import PdfReader
 
 from srs_llm.config import setup_logging
+
 
 logger = setup_logging(__name__)
 
@@ -73,9 +74,9 @@ class GraphvizExecutableNotFoundError(Exception):
 
 
 def generate_visual_workflow_graph(
-    digraph: MultiDiGraph,
-    dotfile_file_path: Path | str,
-    png_file_path: Path | str,
+        digraph: MultiDiGraph,
+        dotfile_file_path: Path | str,
+        png_file_path: Path | str,
 ) -> None:
     """
     Generates a visual workflow graph from a MultiDiGraph and exports it to a PNG file.

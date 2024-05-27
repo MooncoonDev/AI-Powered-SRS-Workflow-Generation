@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from jinja2 import Template
 from transformers import logging as transformers_logging
 
+
 DATA_DIR = Path("data")
 RAW_DATA_DIR = DATA_DIR / "raw"
 RAW_SRS_DIR = RAW_DATA_DIR / "pdf"

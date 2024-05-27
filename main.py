@@ -5,23 +5,17 @@ MIT License
 """
 
 from pathlib import Path
+from typing import Dict
 
 import networkx as nx
 from networkx import MultiDiGraph
 
-from srs_llm.config import (
-    GROUND_TRUTH_DATA_DIR,
-    PROCESSED_DOT_DATA_DIR,
-    PROCESSED_TXT_DATA_DIR,
-    RAW_SRS_DIR,
-    VISUAL_REPRESENTATIONS_DATA_DIR,
-    setup_logging,
-)
-from srs_llm.inference import calculate_metrics, get_llm_pipe, srs_file_to_dot
-from srs_llm.utils import (
-    convert_all_pdfs_to_txt,
-    generate_visual_workflow_graph,
-)
+from srs_llm.config import (GROUND_TRUTH_DATA_DIR, PROCESSED_DOT_DATA_DIR, PROCESSED_TXT_DATA_DIR, RAW_SRS_DIR,
+                            VISUAL_REPRESENTATIONS_DATA_DIR, setup_logging, )
+from srs_llm.inference import calculate_metrics, get_llm_pipe, srs_file_to_dot, calculate_similarity_score, \
+    generate_report
+from srs_llm.utils import (convert_all_pdfs_to_txt, generate_visual_workflow_graph, )
+
 
 logger = setup_logging(__name__)
 
@@ -38,25 +32,17 @@ def main() -> None:
             continue
 
         file_name = srs_file.stem
-        dotfile_file_path: Path = (
-            PROCESSED_DOT_DATA_DIR / file_name
-        ).with_suffix(".dot")
-        ground_truth_dot_file_path: str = (
-            GROUND_TRUTH_DATA_DIR / file_name
-        ).with_suffix(".dot")
-        png_file_path: Path = (
-            VISUAL_REPRESENTATIONS_DATA_DIR / file_name
-        ).with_suffix(".png")
+        dotfile_file_path: Path = (PROCESSED_DOT_DATA_DIR / file_name).with_suffix(".dot")
+        ground_truth_dot_file_path: str = (GROUND_TRUTH_DATA_DIR / file_name).with_suffix(".dot")
+        png_file_path: Path = (VISUAL_REPRESENTATIONS_DATA_DIR / file_name).with_suffix(".png")
 
-        generate_visual_workflow_graph(
-            generated_dot, dotfile_file_path, png_file_path
-        )
+        generate_visual_workflow_graph(generated_dot, dotfile_file_path, png_file_path)
 
-        logger.debug(f"Generating metrics report for SRS {file_name}...")
-        ground_truth_dot: MultiDiGraph = nx.drawing.nx_pydot.read_dot(
-            ground_truth_dot_file_path
-        )
-        report = calculate_metrics(ground_truth_dot, generated_dot)
+        logger.debug(f"Generating report for SRS {file_name}...")
+        ground_truth_dot: MultiDiGraph = nx.drawing.nx_pydot.read_dot(ground_truth_dot_file_path)
+        metrics: Dict[str, float] = calculate_metrics(ground_truth_dot, generated_dot)
+        semantic_similarity: float = calculate_similarity_score(ground_truth_dot, generated_dot)
+        report = generate_report(file_name, metrics, semantic_similarity)
         logger.info(report)
 
 

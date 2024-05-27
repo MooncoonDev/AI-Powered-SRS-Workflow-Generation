@@ -143,6 +143,30 @@ For C, the visuals correspond with the f1 score of 0.19:
 
 ![Visual Representation Generated SRS C](assets/C-generated.png)
 
+## Semantic Similarity
+
+This metric seems to be more reliable and provides a more nuanced and comprehensive measure of similarity between two
+graphs by capturing the semantic essence of the entire graph structure, even without using graph-specific embeddings.
+
+**Example**:
+
+```text
+================
+Metrics report for SRS B:
+================
+node_precision: 0.0278
+node_recall: 0.0556
+node_f1: 0.0370
+edge_precision: 0.0000
+edge_recall: 0.0000
+edge_f1: 0.0000
+precision: 0.0000
+recall: 0.0000
+f1: 0.0000
+Cosine similarity score: 0.7603
+================
+```
+
 ## Possible Improvements
 
 ### Enhance Edge Prediction with Graph Neural Networks (GNNs):
