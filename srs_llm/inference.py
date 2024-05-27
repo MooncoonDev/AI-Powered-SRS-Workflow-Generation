@@ -6,10 +6,11 @@ MIT License
 
 from pathlib import Path
 from statistics import harmonic_mean
-from typing import Dict
+from typing import Dict, Any, Optional
 
 from networkx import MultiDiGraph
-from transformers import (pipeline, AutoModelForCausalLM, AutoTokenizer, )
+from transformers import (pipeline, AutoModelForCausalLM, AutoTokenizer, PreTrainedTokenizerFast, Pipeline,
+                          TFPreTrainedModel, PreTrainedModel, )
 
 from srs_llm.config import (HF_MODEL, prompt_template, setup_logging, system_prompt, extract_workflow_text, )
 from srs_llm.utils import dot_to_digraph
@@ -18,28 +19,29 @@ from srs_llm.utils import dot_to_digraph
 logger = setup_logging(__name__)
 
 
-def generate_dot(srs: str) -> str:
+def get_llm_pipe(model_id: str = HF_MODEL) -> Pipeline:
+    model: str | PreTrainedModel | TFPreTrainedModel | None = AutoModelForCausalLM.from_pretrained(model_id)
+    tokenizer: PreTrainedTokenizerFast | Any = AutoTokenizer.from_pretrained(model_id)
+    return pipeline("text-generation", model=model, tokenizer=tokenizer, device="cuda")
+
+
+def generate_dot(srs: str, llm_pipe: Pipeline) -> str:
     messages = [{"role": "system", "content": system_prompt},
                 {"role": "user", "content": prompt_template.render(srs=srs).strip()}]
-
-    model = AutoModelForCausalLM.from_pretrained(HF_MODEL)
-    tokenizer = AutoTokenizer.from_pretrained(HF_MODEL)
-
-    pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, device="cuda")
-
-    outputs = pipe(messages, max_new_tokens=1000, do_sample=False, num_return_sequences=1)
+    outputs = llm_pipe(messages, max_new_tokens=1000, do_sample=False, num_return_sequences=1)
     assistant_answer = outputs[0]["generated_text"][-1]['content']
+
     return extract_workflow_text(assistant_answer).strip()
 
 
-def srs_file_to_dot(srs_document_path: Path | str) -> MultiDiGraph | None:
+def srs_file_to_dot(srs_document_path: Path | str, llm_pipe: Pipeline) -> Optional[MultiDiGraph]:
     logger.debug(f"Inferring dotfile from {srs_document_path}...")
     srs: str = Path(srs_document_path).read_text()
 
-    inferred_dot = generate_dot(srs)
+    inferred_dot = generate_dot(srs, llm_pipe=llm_pipe)
     logger.debug(f"Model generated the following dotfile:\n{inferred_dot}")
     try:
-        inferred_digraph: MultiDiGraph = dot_to_digraph(inferred_dot)
+        inferred_digraph: Optional[MultiDiGraph] = dot_to_digraph(inferred_dot)
         return inferred_digraph
     except TypeError as e:
         logger.warning(f"The inferred dotfile for SRS document {srs_document_path.stem}"

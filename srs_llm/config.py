@@ -5,6 +5,7 @@ from typing import Any
 
 from bs4 import BeautifulSoup
 from jinja2 import Template
+from transformers import logging as transformers_logging
 
 
 DATA_DIR = Path("data")
@@ -110,3 +111,6 @@ def extract_workflow_text(xml_string: str) -> str:
         return workflow_tag.get_text()
     else:
         raise ValueError(f"No workflow tag found in XML string: {xml_string}")
+
+
+transformers_logging.set_verbosity_error()

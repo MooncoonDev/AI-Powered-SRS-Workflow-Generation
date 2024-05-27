@@ -9,7 +9,7 @@ from networkx import MultiDiGraph
 
 from srs_llm.config import PROCESSED_TXT_DATA_DIR, RAW_SRS_DIR, setup_logging, PROCESSED_DOT_DATA_DIR, \
     VISUAL_REPRESENTATIONS_DATA_DIR
-from srs_llm.inference import srs_file_to_dot
+from srs_llm.inference import srs_file_to_dot, get_llm_pipe
 from srs_llm.utils import convert_all_pdfs_to_txt, generate_visual_workflow_graph
 
 
@@ -21,8 +21,9 @@ def main() -> None:
     convert_all_pdfs_to_txt(RAW_SRS_DIR, PROCESSED_TXT_DATA_DIR)
 
     # Infer each file to dotfile and get accompanying visual representation.
+    pipe = get_llm_pipe()
     for srs_file in PROCESSED_TXT_DATA_DIR.iterdir():
-        dot: MultiDiGraph | None = srs_file_to_dot(srs_file)
+        dot: MultiDiGraph | None = srs_file_to_dot(srs_file, pipe)
         if not dot:
             continue
         file_name = srs_file.stem
