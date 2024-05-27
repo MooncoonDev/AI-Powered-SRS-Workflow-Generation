@@ -166,6 +166,22 @@ provide additional context and information that can aid in accurately predicting
 example, using a software engineering ontology could help the model understand common patterns and relationships in
 software development processes.
 
+## Multimodal Inputs
+
+The current workflow converts the SRS PDF files to text before running it through the inference pipeline.
+
+To enhance the understanding and processing of SRS documents, especially those with rich visual content or accompanying
+multimedia, it's beneficial to leverage the capabilities of multimodal models. One such model
+is `Phi-3-vision-128k-instruct`, which excels in interpreting and integrating both textual and visual information.
+
+- **Visual Data Integration**: Beyond converting PDFs to text, we can consider extracting and using the visual elements
+  within these documents like images, charts and other visual data, enriching the
+  context and insights derived from the document.
+
+- **Multimedia Content Processing**: For documents accompanied by multimedia resources, such as video or audio
+  files, multimodal models offer a comprehensive approach to analyzing and synthesizing information across
+  different modalities, providing a more holistic understanding of the content.
+
 ## License
 
 This project is licensed under the MIT Licence.
